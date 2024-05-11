@@ -43,8 +43,32 @@ public class PostServiceImpl implements PostService {
     public PostDto getPostById(Long id) {
         Optional<Post> post = postRepository.findById(id);
         if(post.isEmpty()){
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("Post" , "id" , id);
         }
+        return post.get().toDto();
+    }
+
+    @Override
+    public PostDto updatPost(Long id, PostDto model) {
+        Optional<Post> post = postRepository.findById(id);
+        if(post.isEmpty()){
+            throw new ResourceNotFoundException("Post" , "id" , id);
+        }
+
+        if(model.getTitle() != null){
+            if(!model.getTitle().equals(post.get().getTitle())){
+                if(postRepository.getPostByTitle(model.getTitle()).isPresent()){
+                    throw new ResourceExistsException();
+                }
+                post.get().setTitle(model.getTitle());
+            }
+        }
+        if(model.getContent() != null){
+            if(!model.getContent().equals(post.get().getContent())){
+                post.get().setContent(model.getContent());
+            }
+        }
+        postRepository.save(post.get());
         return post.get().toDto();
     }
 }
