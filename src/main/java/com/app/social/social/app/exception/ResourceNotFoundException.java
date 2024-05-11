@@ -17,4 +17,10 @@ public class ResourceNotFoundException extends RuntimeException {
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
     }
+    public ResourceNotFoundException() {
+        super("Cannot find this resource.");
+        resourceName = null;
+        fieldName = null;
+        fieldValue = null;
+    }
 }
