@@ -1,6 +1,7 @@
 package com.app.social.social.app.service.impl;
 
 import com.app.social.social.app.entity.Post;
+import com.app.social.social.app.exception.PageNotFoundException;
 import com.app.social.social.app.exception.ResourceExistsException;
 import com.app.social.social.app.exception.ResourceNotFoundException;
 import com.app.social.social.app.payload.PostDto;
@@ -12,9 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,14 +32,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts(int page) {
-        Pageable pageable = PageRequest.of(page , 10);
+    public Map<String , Object> getAllPosts(int page) {
+        if(page < 1) throw new PageNotFoundException();
+        Pageable pageable = PageRequest.of(page-1 , 10);
         Page<Post> list =  postRepository.findAll(pageable);
         List<PostDto> ret = new ArrayList<>();
         for (Post post : list.getContent()) {
             ret.add(post.toDto());
         }
-        return ret;
+        Map<String , Object> result = new HashMap<>();
+        result.put("total_pages" , list.getTotalPages());
+        result.put("total_elements" , list.getTotalElements());
+        result.put("current_page" , page);
+        result.put("content" , ret);
+        return result;
     }
 
     @Override

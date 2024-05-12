@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity< List<PostDto> > getAll(
-            @RequestParam(value = "page" , defaultValue = "0" , required = false) int page
+    public ResponseEntity<Map<String , Object>> getAll(
+            @RequestParam(value = "page" , defaultValue = "1" , required = false) int page
     ){
         return new ResponseEntity<>(postService.getAllPosts(page) , HttpStatus.OK);
     }
