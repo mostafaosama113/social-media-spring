@@ -22,9 +22,11 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<Map<String , Object>> getAll(
-            @RequestParam(value = "page" , defaultValue = "1" , required = false) int page
+            @RequestParam(value = "page" , defaultValue = "1" , required = false) int page,
+            @RequestParam(value = "pageSize" , defaultValue = "10" , required = false) int pageSize,
+            @RequestParam(value = "sortBy" , defaultValue = "id" , required = false) String sortBy
     ){
-        return new ResponseEntity<>(postService.getAllPosts(page) , HttpStatus.OK);
+        return new ResponseEntity<>(postService.getAllPosts(page , pageSize , sortBy) , HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getById(@PathVariable("id") Long id){

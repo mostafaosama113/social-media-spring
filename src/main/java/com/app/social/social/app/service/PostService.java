@@ -9,7 +9,7 @@ import java.util.Map;
 public interface PostService {
     PostDto createPost(PostDto model);
 
-    Map<String , Object> getAllPosts(int page);
+    Map<String , Object> getAllPosts(int page , int pageSize , String sortBy);
     PostDto getPostById(Long id);
 
     PostDto updatePost(Long id , PostDto model);
