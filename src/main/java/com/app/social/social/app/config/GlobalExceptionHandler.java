@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,9 @@ public class GlobalExceptionHandler {
 
         ErrorResponseDto errorResponse = new ErrorResponseDto();
         errorResponse.setMessage(ex.getMessage());
-        errorResponse.setErrorName(errorName);
+        errorResponse.setError(errorName);
+        errorResponse.setStatus(status.value());
+        errorResponse.setTimestamp(new Date());
         return new ResponseEntity<>(errorResponse, status);
     }
 
