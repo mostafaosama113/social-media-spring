@@ -8,8 +8,12 @@ import java.util.List;
 public interface PostService {
     PostDto createPost(PostDto model);
 
-    List<PostDto> getAllPosts();
+    List<PostDto> getAllPosts(int page);
     PostDto getPostById(Long id);
 
-    PostDto updatPost(Long id , PostDto model);
+    PostDto updatePost(Long id , PostDto model);
+
+    PostDto deletePost(Long id);
+
+
 }

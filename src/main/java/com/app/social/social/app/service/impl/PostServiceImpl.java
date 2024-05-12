@@ -7,6 +7,9 @@ import com.app.social.social.app.payload.PostDto;
 import com.app.social.social.app.repositry.PostRepository;
 import com.app.social.social.app.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,10 +33,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts() {
-        List<Post> list =  postRepository.findAll();
+    public List<PostDto> getAllPosts(int page) {
+        Pageable pageable = PageRequest.of(page , 10);
+        Page<Post> list =  postRepository.findAll(pageable);
         List<PostDto> ret = new ArrayList<>();
-        for(Post post : list){
+        for (Post post : list.getContent()) {
             ret.add(post.toDto());
         }
         return ret;
@@ -49,7 +53,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto updatPost(Long id, PostDto model) {
+    public PostDto updatePost(Long id, PostDto model) {
         Optional<Post> post = postRepository.findById(id);
         if(post.isEmpty()){
             throw new ResourceNotFoundException("Post" , "id" , id);
@@ -69,6 +73,16 @@ public class PostServiceImpl implements PostService {
             }
         }
         postRepository.save(post.get());
+        return post.get().toDto();
+    }
+
+    @Override
+    public PostDto deletePost(Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        if(post.isEmpty()){
+            throw new ResourceNotFoundException("Post" , "id" , id);
+        }
+        postRepository.delete(post.get());
         return post.get().toDto();
     }
 }

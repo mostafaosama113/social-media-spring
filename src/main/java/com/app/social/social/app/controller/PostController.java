@@ -20,8 +20,10 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity< List<PostDto> > getAll(){
-        return new ResponseEntity<>(postService.getAllPosts() , HttpStatus.OK);
+    public ResponseEntity< List<PostDto> > getAll(
+            @RequestParam(value = "page" , defaultValue = "0" , required = false) int page
+    ){
+        return new ResponseEntity<>(postService.getAllPosts(page) , HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getById(@PathVariable("id") Long id){
@@ -30,6 +32,10 @@ public class PostController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@PathVariable(name =  "id")  Long id , @RequestBody PostDto model){
-        return ResponseEntity.ok(postService.updatPost(id , model));
+        return ResponseEntity.ok(postService.updatePost(id , model));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PostDto> deletePost(@PathVariable("id") Long id){
+        return ResponseEntity.ok(postService.deletePost(id));
     }
 }
