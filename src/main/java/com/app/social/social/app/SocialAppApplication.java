@@ -19,7 +19,7 @@ public class SocialAppApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(PostRepository postRepository) {
 		return args -> {
-			for(int i = 0 ; i < 100 ; i++){
+			for(int i = 0 ; i < 20 ; i++){
 				Post post = new Post();
 				post.setTitle("Title " + i);
 				post.setContent("Content " + i);

@@ -14,11 +14,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.app.social.social.app.utils.AppConstants.POST_TABLE_NAME;
+
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> getPostByTitle(String title);
 
-    @Query(value = "SELECT column_name FROM information_schema.columns WHERE table_name = 'posts'", nativeQuery = true)
+    @Query(value = "SELECT column_name FROM information_schema.columns WHERE table_name = " + POST_TABLE_NAME, nativeQuery = true)
     List<String> getAllColumns();
 
 

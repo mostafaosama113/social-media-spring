@@ -15,6 +15,6 @@ public class PostDto {
     private String content;
 
     public Post toPost(){
-        return new Post(this.id , this.title, this.content);
+        return new Post(this.id , this.title, this.content , null);
     }
 }

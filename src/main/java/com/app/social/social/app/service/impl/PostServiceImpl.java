@@ -2,7 +2,6 @@ package com.app.social.social.app.service.impl;
 
 import com.app.social.social.app.entity.Post;
 import com.app.social.social.app.exception.ColumnsNotExistsException;
-import com.app.social.social.app.exception.PageNotFoundException;
 import com.app.social.social.app.exception.ResourceExistsException;
 import com.app.social.social.app.exception.ResourceNotFoundException;
 import com.app.social.social.app.payload.PostDto;
@@ -35,7 +34,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Map<String , Object> getAllPosts(int page , int pageSize , String sortBy) {
-        if(page < 1) throw new PageNotFoundException();
+        if(page < 1) throw new ResourceNotFoundException("Page" , "page number" , page);
         if (!postRepository.getAllColumns().contains(sortBy)) {
             throw new ColumnsNotExistsException(sortBy);
         }

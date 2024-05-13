@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+import static com.app.social.social.app.utils.AppConstants.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
@@ -22,9 +24,9 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<Map<String , Object>> getAll(
-            @RequestParam(value = "page" , defaultValue = "1" , required = false) int page,
-            @RequestParam(value = "pageSize" , defaultValue = "10" , required = false) int pageSize,
-            @RequestParam(value = "sortBy" , defaultValue = "id" , required = false) String sortBy
+            @RequestParam(value = "page" , defaultValue = DEFAULT_PAGE_NUM , required = false) int page,
+            @RequestParam(value = "pageSize" , defaultValue = DEFAULT_PAGE_SIZE , required = false) int pageSize,
+            @RequestParam(value = "sortBy" , defaultValue = DEFAULT_SORT_BY , required = false) String sortBy
     ){
         return new ResponseEntity<>(postService.getAllPosts(page , pageSize , sortBy) , HttpStatus.OK);
     }

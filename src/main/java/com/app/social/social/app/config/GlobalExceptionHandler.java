@@ -12,13 +12,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.app.social.social.app.utils.AppConstants.UNKNOWN_ERROR;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
     private static final Map<HttpStatus, String> statusToErrorNameMap = new HashMap<>();
 
     static {
-        statusToErrorNameMap.put(HttpStatus.BAD_REQUEST, "Bad Request");
-        statusToErrorNameMap.put(HttpStatus.UNAUTHORIZED, "Unauthorized");
+        statusToErrorNameMap.put(HttpStatus.BAD_REQUEST, "BAD REQUEST");
+        statusToErrorNameMap.put(HttpStatus.UNAUTHORIZED, "UNAUTHORIZED");
         statusToErrorNameMap.put(HttpStatus.CONFLICT, "CONFLICT");
         statusToErrorNameMap.put(HttpStatus.NOT_FOUND, "NOT FOUND");
         // Add more status codes as needed
@@ -30,10 +32,10 @@ public class GlobalExceptionHandler {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // Default status code
 
         ResponseStatus responseStatus = ex.getClass().getAnnotation(ResponseStatus.class);
-        String errorName = "Unknown Error";
+        String errorName = UNKNOWN_ERROR;
         if (responseStatus != null) {
             status = responseStatus.value(); // Retrieve status code from ResponseStatus annotation
-            errorName =statusToErrorNameMap.getOrDefault(status, "Unknown Error");
+            errorName =statusToErrorNameMap.getOrDefault(status, UNKNOWN_ERROR);
         }
 
         ErrorResponseDto errorResponse = new ErrorResponseDto();
