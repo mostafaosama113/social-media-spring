@@ -1,6 +1,7 @@
 package com.app.social.social.app.config;
 
 import com.app.social.social.app.exception.NotValidRequestException;
+import com.app.social.social.app.exception.ResourceNotFoundException;
 import com.app.social.social.app.payload.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,17 @@ public class GlobalExceptionHandler {
         // Add more status codes as needed
     }
 
-    public static void checkAndFire(BindingResult bindingResult){
+    public static void checkAndFire(Object Dto , BindingResult bindingResult){
+        if(Dto == null){
+            throw new ResourceNotFoundException("PostDto cannot be null");
+        }
         if(bindingResult.hasErrors()){
             throw new NotValidRequestException(bindingResult);
+        }
+    }
+    public static void checkAndFire(Object Dto){
+        if(Dto == null){
+            throw new ResourceNotFoundException("PostDto cannot be null");
         }
     }
 

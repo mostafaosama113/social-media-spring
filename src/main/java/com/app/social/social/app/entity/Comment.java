@@ -27,12 +27,12 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id" , name = "post_id")
     private Post post;
-
-    public CommentDto ToDto(){
+    public CommentDto toDto(){
         CommentDto commentDto = new CommentDto();
         commentDto.setBody(body);
         commentDto.setId(id);
         commentDto.setName(name);
+        commentDto.setTimeStamp(timeStamp);
         return commentDto;
     }
 

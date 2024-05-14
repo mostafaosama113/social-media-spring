@@ -1,5 +1,6 @@
 package com.app.social.social.app.service.impl;
 
+import com.app.social.social.app.entity.Comment;
 import com.app.social.social.app.entity.Post;
 import com.app.social.social.app.exception.ResourceNotFoundException;
 import com.app.social.social.app.payload.CommentDto;
@@ -20,7 +21,9 @@ public class CommentServiceImpl implements CommentService {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()->new ResourceNotFoundException("Post" , "id" , postId)
         );
-
-        return null;
+        Comment commentEntity = comment.toEntity();
+        commentEntity.setPost(post);
+        commentRepository.save(commentEntity);
+        return commentEntity.toDto();
     }
 }

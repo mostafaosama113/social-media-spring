@@ -18,12 +18,12 @@ import static com.app.social.social.app.utils.AppConstants.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/posts")
+@RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto model , BindingResult bindingResult) {
-        GlobalExceptionHandler.checkAndFire(bindingResult);
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody(required = false) PostDto model , BindingResult bindingResult) {
+        GlobalExceptionHandler.checkAndFire(model , bindingResult);
         return new ResponseEntity<>(postService.createPost(model) , HttpStatus.CREATED);
     }
 
@@ -41,7 +41,8 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@PathVariable(name =  "id")  Long id , @RequestBody PostDto model){
+    public ResponseEntity<PostDto> updatePost(@PathVariable(name =  "id")  Long id , @RequestBody(required = false) PostDto model){
+        GlobalExceptionHandler.checkAndFire(model);
         return ResponseEntity.ok(postService.updatePost(id , model));
     }
     @DeleteMapping("/{id}")

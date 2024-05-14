@@ -14,7 +14,7 @@ import java.util.List;
 public class NotValidRequestException extends RuntimeException {
     public List<String> list;
     public NotValidRequestException(BindingResult bindingResult){
-        super("Not valid requestException.");
+        super("Not valid request exception.");
         list = new ArrayList<>();
         bindingResult.getFieldErrors().forEach(objectError ->{
             String name = objectError.getField();
