@@ -10,6 +10,9 @@ import com.app.social.social.app.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
@@ -25,5 +28,14 @@ public class CommentServiceImpl implements CommentService {
         commentEntity.setPost(post);
         commentRepository.save(commentEntity);
         return commentEntity.toDto();
+    }
+
+    @Override
+    public List<CommentDto> getComments(Long postId) {
+        List<Comment> comments = commentRepository.getCommentByPostId(postId);
+        List<CommentDto> commentsDto = new ArrayList<>();
+        for(Comment comment : comments)
+            commentsDto.add(comment.toDto());
+        return commentsDto;
     }
 }
