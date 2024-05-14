@@ -36,4 +36,8 @@ public class CommentController {
         GlobalExceptionHandler.checkAndFire(comment);
         return new ResponseEntity<>(commentService.updateComment(commentId , comment) , HttpStatus.OK);
     }
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<CommentDto> deleteComment(@PathVariable(name = "commentId") Long commentId){
+        return ResponseEntity.ok(commentService.deleteComment(commentId));
+    }
 }

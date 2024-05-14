@@ -59,4 +59,14 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
         return comment.toDto();
     }
+
+    @Override
+    public CommentDto deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()->new ResourceNotFoundException("Comment" , "id" , commentId)
+        );
+        CommentDto commentDto = comment.toDto();
+        commentRepository.delete(comment);
+        return commentDto;
+    }
 }

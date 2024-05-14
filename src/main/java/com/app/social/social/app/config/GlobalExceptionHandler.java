@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
     public static void checkAndFire(Object Dto , BindingResult bindingResult){
         if(Dto == null){
-            throw new ResourceNotFoundException("Dto cannot be null.g");
+            throw new ResourceNotFoundException("Dto cannot be null.");
         }
         if(bindingResult.hasErrors()){
             throw new NotValidRequestException(bindingResult);
