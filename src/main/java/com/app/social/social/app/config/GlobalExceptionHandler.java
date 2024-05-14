@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
     public static void checkAndFire(Object Dto , BindingResult bindingResult){
         if(Dto == null){
-            throw new ResourceNotFoundException("PostDto cannot be null");
+            throw new ResourceNotFoundException("Dto cannot be null.g");
         }
         if(bindingResult.hasErrors()){
             throw new NotValidRequestException(bindingResult);
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     }
     public static void checkAndFire(Object Dto){
         if(Dto == null){
-            throw new ResourceNotFoundException("PostDto cannot be null");
+            throw new ResourceNotFoundException("Dto cannot be null.");
         }
     }
 

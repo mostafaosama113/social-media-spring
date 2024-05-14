@@ -31,4 +31,9 @@ public class CommentController {
     public ResponseEntity<CommentDto> getCommentsById(@PathVariable(name = "commentId") Long commentId){
         return new ResponseEntity<>(commentService.getCommentById(commentId) , HttpStatus.OK);
     }
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<CommentDto> updateComment(@PathVariable(name = "commentId") Long commentId , @RequestBody(required = false) CommentDto comment){
+        GlobalExceptionHandler.checkAndFire(comment);
+        return new ResponseEntity<>(commentService.updateComment(commentId , comment) , HttpStatus.OK);
+    }
 }

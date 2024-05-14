@@ -46,4 +46,17 @@ public class CommentServiceImpl implements CommentService {
         );
         return comment.toDto();
     }
+
+    @Override
+    public CommentDto updateComment(Long commentId, CommentDto commentDto) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()->new ResourceNotFoundException("Comment" , "id" , commentId)
+        );
+        if(commentDto.getBody()!=null)
+            comment.setBody(commentDto.getBody());
+        if(commentDto.getName()!=null)
+            comment.setName(commentDto.getName());
+        commentRepository.save(comment);
+        return comment.toDto();
+    }
 }
