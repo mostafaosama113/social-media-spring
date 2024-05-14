@@ -1,10 +1,14 @@
 package com.app.social.social.app.controller;
 
+import com.app.social.social.app.config.GlobalExceptionHandler;
+import com.app.social.social.app.exception.NotValidRequestException;
 import com.app.social.social.app.payload.PostDto;
 import com.app.social.social.app.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +22,8 @@ import static com.app.social.social.app.utils.AppConstants.*;
 public class PostController {
     private final PostService postService;
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto model) {
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto model , BindingResult bindingResult) {
+        GlobalExceptionHandler.checkAndFire(bindingResult);
         return new ResponseEntity<>(postService.createPost(model) , HttpStatus.CREATED);
     }
 

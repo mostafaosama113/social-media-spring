@@ -1,8 +1,10 @@
 package com.app.social.social.app.config;
 
+import com.app.social.social.app.exception.NotValidRequestException;
 import com.app.social.social.app.payload.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +28,12 @@ public class GlobalExceptionHandler {
         // Add more status codes as needed
     }
 
+    public static void checkAndFire(BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new NotValidRequestException(bindingResult);
+        }
+    }
+
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
     public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
@@ -43,6 +51,9 @@ public class GlobalExceptionHandler {
         errorResponse.setError(errorName);
         errorResponse.setStatus(status.value());
         errorResponse.setTimestamp(new Date());
+        if(ex instanceof NotValidRequestException){
+            errorResponse.setList(((NotValidRequestException) ex).getList());
+        }
         return new ResponseEntity<>(errorResponse, status);
     }
 
