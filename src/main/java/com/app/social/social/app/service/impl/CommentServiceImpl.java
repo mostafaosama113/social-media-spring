@@ -38,4 +38,12 @@ public class CommentServiceImpl implements CommentService {
             commentsDto.add(comment.toDto());
         return commentsDto;
     }
+
+    @Override
+    public CommentDto getCommentById(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Comment" , "id" , id)
+        );
+        return comment.toDto();
+    }
 }

@@ -14,17 +14,21 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/post/{id}")
+@RequestMapping("/api")
 public class CommentController {
     private final CommentService commentService;
-    @PostMapping("/comments")
+    @PostMapping("/post/{id}/comments")
     public ResponseEntity<CommentDto> createComment(@Valid @RequestBody(required = false) CommentDto comment , BindingResult bindingResult , @PathVariable(name = "id") Long postId){
         GlobalExceptionHandler.checkAndFire(comment , bindingResult);
         CommentDto responseComment = commentService.createComment(postId , comment);
         return new ResponseEntity<>(responseComment , HttpStatus.CREATED);
     }
-    @GetMapping("/comments")
+    @GetMapping("/post/{id}/comments")
     public ResponseEntity<List<CommentDto>> getComments(@PathVariable(name = "id") Long postId){
         return new ResponseEntity<>(commentService.getComments(postId) , HttpStatus.OK);
+    }
+    @GetMapping("/comments/{commentId}")
+    public ResponseEntity<CommentDto> getCommentsById(@PathVariable(name = "commentId") Long commentId){
+        return new ResponseEntity<>(commentService.getCommentById(commentId) , HttpStatus.OK);
     }
 }
