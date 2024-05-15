@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -43,9 +44,9 @@ public class GlobalExceptionHandler {
         }
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
+    public ResponseEntity<Object> handleRuntimeException(Exception ex , WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // Default status code
 
         ResponseStatus responseStatus = ex.getClass().getAnnotation(ResponseStatus.class);
@@ -60,6 +61,7 @@ public class GlobalExceptionHandler {
         errorResponse.setError(errorName);
         errorResponse.setStatus(status.value());
         errorResponse.setTimestamp(new Date());
+        errorResponse.setPath(request.getDescription(false));
         if(ex instanceof NotValidRequestException){
             errorResponse.setList(((NotValidRequestException) ex).getList());
         }

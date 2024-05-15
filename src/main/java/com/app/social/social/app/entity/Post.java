@@ -13,8 +13,7 @@ import java.util.Set;
 import static com.app.social.social.app.utils.AppConstants.POST_TABLE_NAME;
 
 @Entity(name = POST_TABLE_NAME)
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(

@@ -17,4 +17,5 @@ public class ErrorResponseDto {
     private int status;
     private Date timestamp;
     private List<String> list;
+    private String path;
 }

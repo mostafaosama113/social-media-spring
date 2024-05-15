@@ -2,6 +2,7 @@ package com.app.social.social.app.entity;
 
 import com.app.social.social.app.payload.CommentDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +11,7 @@ import static com.app.social.social.app.utils.AppConstants.COMMENTS_TABLE_NAME;
 
 @Entity
 @Table(name = COMMENTS_TABLE_NAME)
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
