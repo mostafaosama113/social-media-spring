@@ -1,17 +1,17 @@
 package com.app.social.social.app.entity;
 
 import com.app.social.social.app.payload.CommentDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+
 import java.util.Date;
 import static com.app.social.social.app.utils.AppConstants.COMMENTS_TABLE_NAME;
 
 @Entity
 @Table(name = COMMENTS_TABLE_NAME)
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
@@ -25,7 +25,8 @@ public class Comment {
     @Column(nullable = false)
     private String body;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id" , name = "post_id")
+    @JoinColumn(referencedColumnName = "id" ,name = "post_id" , nullable = false)
+    @JsonBackReference
     private Post post;
     public CommentDto toDto(){
         CommentDto commentDto = new CommentDto();
