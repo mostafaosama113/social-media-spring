@@ -3,7 +3,7 @@ package com.app.social.social.app.payload;
 import lombok.Data;
 
 @Data
-public class LoginDto {
+public class RegisterDto {
     private String firstName;
     private String secondName;
     private String username;

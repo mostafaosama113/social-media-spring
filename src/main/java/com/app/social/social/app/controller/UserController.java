@@ -1,8 +1,11 @@
 package com.app.social.social.app.controller;
 
-import com.app.social.social.app.payload.LoginDto;
+import com.app.social.social.app.payload.RegisterDto;
+import com.app.social.social.app.payload.UserLoginInfo;
 import com.app.social.social.app.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +18,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public void createUser(@RequestBody LoginDto loginDto) {
-        userService.register(loginDto);
+    public void createUser(@RequestBody RegisterDto dto) {
+        userService.register(dto);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserLoginInfo> login(Authentication authentication) {
+        return ResponseEntity.ok(userService.login(authentication));
     }
 }

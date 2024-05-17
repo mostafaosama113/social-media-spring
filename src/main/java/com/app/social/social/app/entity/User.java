@@ -46,7 +46,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
         for (Role role : roles) {
-            list.add(new SimpleGrantedAuthority(role.getName()));
+            list.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
         }
         return list;
     }
