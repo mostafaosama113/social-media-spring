@@ -19,7 +19,7 @@ public class JwtProvider {
 
     private final String secretKey = "b03f84492fbf8b107365bca0945375fdfebc31b63e288757c5e5853950a773ce";
 
-    private final long jwtExpiration = 10000;
+    private final long jwtExpiration = 10000 * 60 * 24;
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -58,5 +58,16 @@ public class JwtProvider {
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 }
