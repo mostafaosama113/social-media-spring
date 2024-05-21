@@ -20,8 +20,10 @@ public class SecurityAuthRequest {
     private final SecurityFilter securityFilter;
     private final AuthenticationProvider authenticationProvider;
 
-    private static final String[] WHITE_LIST_URL = {"/api/register",
-            "/api/auth/**",
+    private static final String[] WHITE_LIST_URL = {
+            "/api/register",
+            "/api/login",
+
     };
 
     @Bean

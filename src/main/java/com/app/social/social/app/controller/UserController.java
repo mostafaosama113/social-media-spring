@@ -25,7 +25,7 @@ public class UserController {
     }
     @PostMapping("/login")
     public ResponseEntity<UserLoginInfoDto> register(@RequestBody LoginDto model){
-        return null;
+        return new ResponseEntity<>(userService.login(model) , HttpStatus.OK);
     }
 
 }
