@@ -2,6 +2,7 @@ package com.app.social.social.app.service.impl;
 
 
 import com.app.social.social.app.entity.User;
+import com.app.social.social.app.exception.ResourceExistsException;
 import com.app.social.social.app.exception.ResourceNotFoundException;
 import com.app.social.social.app.exception.WrongPasswordException;
 import com.app.social.social.app.payload.LoginDto;
@@ -26,11 +27,12 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
-    private final AuthenticationManager authenticationManager;
 
     @Override
     public UserLoginInfoDto register(RegisterDto model) {
-        //todo: check if the email or username are already exists.
+        if(userRepository.existsByUsername(model.getUsername()) ||userRepository.existsByEmail(model.getEmail())){
+            throw new ResourceExistsException("Username or Email already registered");
+        }
         User user = new User();
         user.setUsername(model.getUsername());
         user.setEmail(model.getEmail());

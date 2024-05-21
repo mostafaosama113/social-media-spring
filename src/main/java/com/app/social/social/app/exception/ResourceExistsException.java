@@ -9,4 +9,7 @@ public class ResourceExistsException extends RuntimeException {
     public ResourceExistsException(){
         super("This resource already exists.");
     }
+    public ResourceExistsException(String message){
+        super(message);
+    }
 }
