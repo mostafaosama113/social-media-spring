@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         userLoginInfoDto.setToken(token);
         userLoginInfoDto.setEmail(user.getEmail());
         userLoginInfoDto.setId(user.getId());
-        userLoginInfoDto.setName(user.getFirstName() + " "+ user.getSecondName());
+        userLoginInfoDto.setName(user.getFirstName() + " " + user.getSecondName());
         return userLoginInfoDto;
     }
 }
