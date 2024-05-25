@@ -42,19 +42,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(model.getFirstName());
         user.setSecondName(model.getSecondName());
         userRepository.save(user);
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                model.getUsername(),
-                model.getPassword()
-        ));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtProvider.generateToken(user);
-        UserLoginInfoDto userLoginInfoDto = new UserLoginInfoDto();
-        userLoginInfoDto.setUsername(model.getUsername());
-        userLoginInfoDto.setToken(token);
-        userLoginInfoDto.setEmail(model.getEmail());
-        userLoginInfoDto.setId(user.getId());
-        userLoginInfoDto.setName(user.getFirstName() + " "+ user.getSecondName());
-        return userLoginInfoDto;
+        return updateSecurityContext(model , user);
     }
     @Override
     public UserLoginInfoDto login(LoginDto model) {
@@ -64,6 +52,9 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(model.getPassword(), user.getPassword())) {
             throw new WrongPasswordException();
         }
+        return updateSecurityContext(model , user);
+    }
+    private UserLoginInfoDto updateSecurityContext(LoginDto model , User user){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 model.getUsername(),
                 model.getPassword()
